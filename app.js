@@ -3,7 +3,7 @@
 
 let DEFAULT_MEMEIFY_TIMES = 3;
 // talk abut hardcoding amiright
-let ADMIN_ID = 'cole.cherian1';
+// let ADMIN_ID = 'cole.cherian1';
 
 // retrieve's a sender's first name
 function getSendersFirstName(session) {
@@ -13,7 +13,7 @@ function getSendersFirstName(session) {
 
 // memeifies a string
 function memeify(args,session) {
-    if(args.length == 0){
+    if(args.length === 0){
         session.send('Too few arguments provided, memeify failed.');
         return -1;
     } else {
@@ -59,7 +59,7 @@ function whois(args,session) {
 }
 
 function niceone(args,session) {
-    if (!args){
+    if (args.length === 0){
         return -1;
     }
     if (!session.conversationData.niceOne) {
@@ -93,8 +93,11 @@ function niceone(args,session) {
     //     }
     //     return -1;
     // }
-    // if called with 'get', get the following key's nice ones.
+    // if called with 'minus', subtract one from the following key's nice ones.
     if (args[0].toLowerCase() === 'm' || args[0].toLowerCase() === 'minus') {
+        if (args.slice(1).length === 0) {
+            return -1;
+        }
         var user = args.slice(1).join(' ');
         var userKey = user.toLowerCase();
         if (session.conversationData.niceOne[userKey]) {
@@ -107,6 +110,7 @@ function niceone(args,session) {
         }
         return 0;
     }
+    // if called with 'get', get the nice ones.
     if (args[0].toLowerCase() === 'get'){
         var user = args.slice(1).join(' ');
         var userKey = user.toLowerCase();
