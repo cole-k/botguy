@@ -23,7 +23,7 @@ function memeify(args,session) {
             word = ' '.repeat(times - i) + word;
             output.push(word);
         }
-        session.send(output.join('\n'));
+        session.send(output.join('\n\n'));
         console.log('Memeify successful, output: ');
         console.log(output.join('\n'));
         return 0;
