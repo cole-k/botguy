@@ -2,6 +2,8 @@
 //require('dotenv').config();
 
 let DEFAULT_MEMEIFY_TIMES = 3;
+// talk abut hardcoding amiright
+let ADMIN_ID = 'cole.cherian1';
 
 // retrieve's a sender's first name
 function getSendersFirstName(session) {
@@ -57,9 +59,34 @@ function whois(args,session) {
 }
 
 function niceone(args,session) {
+    if (!args){
+        return -1;
+    }
     if (!session.conversationData.niceOne) {
         console.log("Key niceOne doesn't exist, creating...");
         session.conversationData.niceOne = {};
+    }
+    if (args[0].toLowerCase() === 'set') {
+        var user =  args.slice(1,-1).join(' ');
+        var value = parseInt(args[args.length - 1]);
+        session.conversationData.niceOne[user.toLowerCase()] = value;
+        session.save();
+        session.send('Set the nice ones of ' + user + ' to ' + value + '.');
+        return 0;
+    }
+    // remove a user from the nice ones list 
+    if (args[0].toLowerCase() === 'remove') { 
+        if (session.message.user.id === ADMIN_ID){
+            var user = args.slice(1).join(' ');
+            var userKey = user.toLowerCase();
+            if(session.conversationData.niceOne[userKey]){
+                delete session.conversationData.niceOne[userKey];
+            }
+            session.save();
+            session.send('Removed user ' + userKey + '.');
+            return 0;
+        }
+        return -1;
     }
     // if called with 'get', get the following key's nice ones.
     if (args[0].toLowerCase() === 'get'){
