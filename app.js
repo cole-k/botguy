@@ -76,7 +76,6 @@ function niceone(args,session) {
     }
     // remove a user from the nice ones list 
     if (args[0].toLowerCase() === 'remove') { 
-        session.send(message.user);
         if (session.message.user.id === ADMIN_ID){
             var user = args.slice(1).join(' ');
             var userKey = user.toLowerCase();
