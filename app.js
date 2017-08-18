@@ -57,12 +57,27 @@ function whois(args,session) {
 }
 
 function niceone(args,session) {
-    user = args.join(' ');
-    userKey = user.toLowerCase();
-    if(!session.conversationData.niceOne) {
+    if (!session.conversationData.niceOne) {
         console.log("Key niceOne doesn't exist, creating...");
         session.conversationData.niceOne = {};
     }
+    // if called with 'get', get the following key's nice ones.
+    if (args[0].toLowerCase() === 'get' && args.length > 1){
+        var user = args.slice(1).join(' ');
+        var userKey = user.toLowerCase();
+        if(userKey === 'me'){
+            user = getSendersFirstName(session);
+            userKey = user.toLowerCase();
+        }
+        let niceOnes = session.conversationData.niceOne[userKey];
+        if(!niceOnes){
+            niceOnes = 0;
+        }
+        session.send('Nice ones for ' + user + ': ' + niceOnes);
+        return 0;
+    }
+    user = args.join(' ');
+    userKey = user.toLowerCase();
     if(!session.conversationData.niceOne[userKey]) {
         console.log("Key " + userKey + " doesn't exist, creating...");
         session.conversationData.niceOne[userKey] = 1;
@@ -71,6 +86,7 @@ function niceone(args,session) {
     }
     session.save();
     session.send('Nice one, ' + user + '. \n\n Current nice ones: ' + session.conversationData.niceOne[userKey]);
+    return 0;
 }
 
 var restify = require('restify');
