@@ -78,19 +78,22 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
     // Split on spaces
     words = session.message.text.split(' ');
+    if(words[0] === '@botguy') {
+        // cut off the @botguy part of the message
+        words = words.slice(1);
+    }
     // The first word's the command
     command = words[0].toLowerCase();
     // The rest are the arguments
     args = words.slice(1);
-    session.send('you sent: ' + session.message.text);
     switch(command) {
-        case '!m':
+        case 'm':
             memeify(args,session);
             break;
-        case '!memeify':
+        case 'memeify':
             memeify(args,session);
             break;
-        case '!whois':
+        case 'whois':
             whois(args,session);
             break;
     }
