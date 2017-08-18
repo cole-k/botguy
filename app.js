@@ -1,14 +1,16 @@
 // set up environment
 //require('dotenv').config();
 
+let DEFAULT_MEMEIFY_TIMES = 3;
+
 // memeifies a string
 function memeify(args,session) {
     if(args.length == 0){
         session.send('Too few arguments provided, memeify failed.');
         return -1;
     } else {
-        let times = parseInt(args[0]);
-        let str = args.slice(1).join(' ');
+        let times = args.length == 1 ? DEFAULT_MEMEIFY_TIMES : parseInt(args[0]); 
+        let str = args.length == 1 ? args.join(' ') : args.slice(1).join(' ');
         // make an array out of the rest of the arguments
         let chars = [...str];
         console.log('Memeify command received with times argument: ' + times + ' and the string argument: ' + str);
@@ -24,7 +26,7 @@ function memeify(args,session) {
             output.push(word);
         }
         // Add "empty string" to the beginning of the output
-        output.unshift('<br>');
+        output.unshift(session.message.user.name + ' says:');
         session.send(output.join('\n\n'));
         console.log('Memeify successful, output: ');
         console.log(output.join('\n'));
@@ -40,7 +42,7 @@ function whois(args,session) {
     } else {
         args = args.join(' ');
         if(args === 'here') {
-            session.send('I am.');
+            session.send('I am, ' + session.message.user.name + '.');
         }
         if(args === 'botguy') {
             session.send('A helpful bot. Maybe.');
@@ -75,10 +77,14 @@ var bot = new builder.UniversalBot(connector, function (session) {
     // The rest are the arguments
     args = words.slice(1);
     switch(command) {
+        case '!m':
+            memeify(args,session);
+            break;
         case '!memeify':
             memeify(args,session);
             break;
         case '!whois':
             whois(args,session);
+            break;
     }
 });
