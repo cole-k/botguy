@@ -66,29 +66,47 @@ function niceone(args,session) {
         console.log("Key niceOne doesn't exist, creating...");
         session.conversationData.niceOne = {};
     }
-    if (args[0].toLowerCase() === 'set') {
-        var user =  args.slice(1,-1).join(' ');
-        var value = parseInt(args[args.length - 1]);
-        session.conversationData.niceOne[user.toLowerCase()] = value;
-        session.save();
-        session.send('Set the nice ones of ' + user + ' to ' + value + '.');
+    // NOTE: ID doesn't work in group chats
+    // // set a value
+    // if (args[0].toLowerCase() === 'set') {
+    //     if (session.message.user.id === ADMIN_ID) {
+    //         var user =  args.slice(1,-1).join(' ');
+    //         var value = parseInt(args[args.length - 1]);
+    //         session.conversationData.niceOne[user.toLowerCase()] = value;
+    //         session.save();
+    //         session.send('Set the nice ones of ' + user + ' to ' + value + '.');
+    //         return 0;
+    //         }
+    //     return -1;
+    // }
+    // // remove a user from the nice ones list 
+    // if (args[0].toLowerCase() === 'remove') { 
+    //     if (session.message.user.id === ADMIN_ID){
+    //         var user = args.slice(1).join(' ');
+    //         var userKey = user.toLowerCase();
+    //         if(session.conversationData.niceOne[userKey]){
+    //             delete session.conversationData.niceOne[userKey];
+    //         }
+    //         session.save();
+    //         session.send('Removed user ' + userKey + '.');
+    //         return 0;
+    //     }
+    //     return -1;
+    // }
+    // if called with 'get', get the following key's nice ones.
+    if (args[0].toLowerCase() === 'm' || args[0].toLowerCase() === 'minus') {
+        var user = args.slice(1).join(' ');
+        var userKey = user.toLowerCase();
+        if (session.conversationData.niceOne[userKey]) {
+            session.conversationData.niceOne[userKey] -= 1;
+            session.send('Not so nice one, ' + user + '. (n)' + '\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey] + '.');
+            if (session.conversationData.niceOne[userKey] == 0) {
+                delete session.conversationData.niceOne[userKey];
+                session.send('User ' + user + "'s nice one value fell to zero, removing from the list...");
+            }
+        }
         return 0;
     }
-    // remove a user from the nice ones list 
-    if (args[0].toLowerCase() === 'remove') { 
-        if (session.message.user.id === ADMIN_ID){
-            var user = args.slice(1).join(' ');
-            var userKey = user.toLowerCase();
-            if(session.conversationData.niceOne[userKey]){
-                delete session.conversationData.niceOne[userKey];
-            }
-            session.save();
-            session.send('Removed user ' + userKey + '.');
-            return 0;
-        }
-        return -1;
-    }
-    // if called with 'get', get the following key's nice ones.
     if (args[0].toLowerCase() === 'get'){
         var user = args.slice(1).join(' ');
         var userKey = user.toLowerCase();
@@ -128,7 +146,7 @@ function niceone(args,session) {
         session.conversationData.niceOne[userKey] += 1;
     }
     session.save();
-    session.send('Nice one, ' + user + '. \n\n Current nice ones: ' + session.conversationData.niceOne[userKey]);
+    session.send('Nice one, ' + user + '. (y)\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey]);
     return 0;
 }
 
