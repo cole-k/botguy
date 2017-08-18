@@ -62,19 +62,35 @@ function niceone(args,session) {
         session.conversationData.niceOne = {};
     }
     // if called with 'get', get the following key's nice ones.
-    if (args[0].toLowerCase() === 'get' && args.length > 1){
+    if (args[0].toLowerCase() === 'get'){
         var user = args.slice(1).join(' ');
         var userKey = user.toLowerCase();
+        // If given 'me', try to get the nice ones for the user's first name
         if(userKey === 'me'){
             user = getSendersFirstName(session);
             userKey = user.toLowerCase();
         }
-        let niceOnes = session.conversationData.niceOne[userKey];
-        if(!niceOnes){
-            niceOnes = 0;
+        // If given nothing, get all the nice ones
+        if(userKey === ''){
+            niceOnesArray = [];
+            Object.keys(session.conversationData.niceOne).forEach( function(key) {
+                niceOnesArray.push([key,session.conversationData.niceOne[key]]);
+            });
+            var output = niceOnesArray.sort( function (a,b) {return b[1] - a[1];} );
+            outputMessage = ['Nice ones:'];
+            output.forEach( function(item) {
+                outputMessage.push(item[0] + ': ' + item[1]);
+            });
+            session.send(outputMessage.join('\n\n'));
+            return 0;
+        } else {
+            let niceOnes = session.conversationData.niceOne[userKey];
+            if(!niceOnes){
+                niceOnes = 0;
+            }
+            session.send('Nice ones for ' + user + ': ' + niceOnes);
+            return 0;
         }
-        session.send('Nice ones for ' + user + ': ' + niceOnes);
-        return 0;
     }
     user = args.join(' ');
     userKey = user.toLowerCase();
