@@ -56,6 +56,23 @@ function whois(args,session) {
     }
 }
 
+function niceone(args,session) {
+    user = args.join(' ');
+    userKey = user.toLowerCase();
+    if(!session.conversationData.niceOne) {
+        console.log("Key niceOne doesn't exist, creating...");
+        session.conversationData.niceOne = {};
+    }
+    if(!session.conversationData.niceOne[userKey]) {
+        console.log("Key " + userKey + " doesn't exist, creating...");
+        session.conversationData.niceOne[userKey] = 1;
+    } else {
+        session.conversationData.niceOne[userKey] += 1;
+    }
+    session.save();
+    session.send('Nice one, ' + user + '. \n\n Current nice ones: ' + session.conversationData.niceOne[userKey]);
+}
+
 var restify = require('restify');
 var builder = require('botbuilder');
 
@@ -95,6 +112,15 @@ var bot = new builder.UniversalBot(connector, function (session) {
             break;
         case 'whois':
             whois(args,session);
+            break;
+        case 'niceone':
+            niceone(args,session);
+            break;
+        case 'n1':
+            niceone(args,session);
+            break;
+        case 'n':
+            niceone(args,session);
             break;
     }
 });
