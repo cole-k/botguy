@@ -99,7 +99,7 @@ function niceone(args,session) {
         var userKey = user.toLowerCase();
         if (session.conversationData.niceOne[userKey]) {
             session.conversationData.niceOne[userKey] -= 1;
-            session.send('Not so nice one, ' + user + '. (n)' + '\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey] + '.');
+            session.send('Not so nice one, ' + user + '. 👎\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey] + '.');
             if (session.conversationData.niceOne[userKey] == 0) {
                 delete session.conversationData.niceOne[userKey];
                 session.send('User ' + user + "'s nice one value fell to zero, removing from the list...");
@@ -146,7 +146,7 @@ function niceone(args,session) {
         session.conversationData.niceOne[userKey] += 1;
     }
     session.save();
-    session.send('Nice one, ' + user + '. (y)\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey]);
+    session.send('Nice one, ' + user + '. 👍\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey]);
     return 0;
 }
 
