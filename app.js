@@ -3,6 +3,12 @@
 
 let DEFAULT_MEMEIFY_TIMES = 3;
 
+// retrieve's a sender's first name
+function getSendersFirstName(session) {
+    let name = session.message.user.name;
+    return name.split(' ')[0];
+}
+
 // memeifies a string
 function memeify(args,session) {
     if(args.length == 0){
@@ -26,7 +32,7 @@ function memeify(args,session) {
             output.push(word);
         }
         // Add "empty string" to the beginning of the output
-        output.unshift(session.message.user.name + ' says:');
+        output.unshift(getSendersFirstName(session) + ' says:');
         session.send(output.join('\n\n'));
         console.log('Memeify successful, output: ');
         console.log(output.join('\n'));
@@ -42,7 +48,7 @@ function whois(args,session) {
     } else {
         args = args.join(' ');
         if(args === 'here') {
-            session.send('I am, ' + session.message.user.name + '.');
+            session.send('I am, ' + getSendersFirstName(session) + '.');
         }
         if(args === 'botguy') {
             session.send('A helpful bot. Maybe.');
