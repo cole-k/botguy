@@ -23,6 +23,8 @@ function memeify(args,session) {
             word = ' '.repeat(times - i) + word;
             output.push(word);
         }
+        // Add "empty string" to the beginning of the output
+        output.unshift('~ ~');
         session.send(output.join('\n\n'));
         console.log('Memeify successful, output: ');
         console.log(output.join('\n'));
