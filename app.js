@@ -24,7 +24,7 @@ function memeify(args,session) {
             output.push(word);
         }
         // Add "empty string" to the beginning of the output
-        output.unshift('~ ~');
+        output.unshift('<br>');
         session.send(output.join('\n\n'));
         console.log('Memeify successful, output: ');
         console.log(output.join('\n'));
