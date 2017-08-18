@@ -1,0 +1,16 @@
+{
+  "name": "botguy",
+  "version": "1.0.0",
+  "description": "a bot for skype",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cole",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.9.1",
+    "dotenv": "^4.0.0",
+    "restify": "^5.2.0"
+  }
+}
