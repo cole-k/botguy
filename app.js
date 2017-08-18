@@ -82,6 +82,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
     command = words[0].toLowerCase();
     // The rest are the arguments
     args = words.slice(1);
+    session.send('you sent: ' + session.message.text);
     switch(command) {
         case '!m':
             memeify(args,session);
