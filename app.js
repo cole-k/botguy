@@ -1,5 +1,5 @@
 // set up environment
-require('dotenv').config();
+//require('dotenv').config();
 
 // memeifies a string
 function memeify(args,session) {
