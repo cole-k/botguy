@@ -89,8 +89,6 @@ function detonate(args, session) {
         output = transposed.map( (row) => {return row.join('')});
     }
     // join the array back
-    output.unshift('```');
-    output.push('```');
     output.join('\n\n');
     console.log(output);
     session.send(getSendersFirstName(session) + ' says: \n\n'.concat(output));
