@@ -121,7 +121,7 @@ function memeify(args,session) {
     }
     // Add "empty string" to the beginning of the output
     output.unshift(getSendersFirstName(session) + ' says:');
-    session.send(output.join('\n\n'));
+    session.send('`' + output.join('\n\n') + '`');
     console.log('Memeify successful, output: ');
     console.log(output.join('\n'));
 }
