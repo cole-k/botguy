@@ -220,12 +220,6 @@ function thank(args, session) {
     session.send("You're welcome, " + getSendersFirstName(session) + '.');
 }
 
-var helpParser = new ArgParser();
-
-function help(args, session) {
-
-}
-
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -243,6 +237,7 @@ var connector = new builder.ChatConnector({
 server.post('/api/messages', connector.listen());
 
 var yam = require('./yam.js');
+var help = require('./help.js');
 
 var parser = new ArgParser();
 parser.addArg(['m', 'memeify'], memeify);

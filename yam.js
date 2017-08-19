@@ -96,6 +96,7 @@ function firstYam(session) {
 }
 
 function postYam(yam, session) {
+     session.send('Attemting to post: ' + yam + '...');
      req({
          url: 'http://meme-machine.xyz',
         method: 'POST',
