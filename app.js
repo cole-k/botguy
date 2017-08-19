@@ -242,6 +242,8 @@ var connector = new builder.ChatConnector({
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
 
+var yam = require('./yam.js');
+
 var parser = new ArgParser();
 parser.addArg(['m', 'memeify'], memeify);
 parser.addArg(['n1', 'niceone'], niceOne);
@@ -250,6 +252,7 @@ parser.addArg(['d', 'detonate'], detonate);
 parser.addArg(['thank','thanks'], thank);
 parser.addArg(['e', 'echo'], (arg, session) => {session.send(arg);});
 parser.addArg(['h', 'help'], help);
+parser.addArg(['y', 'yam'], yam);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {

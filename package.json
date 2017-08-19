@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^3.9.1",
+    "cheerio": "^1.0.0-rc.2",
     "dotenv": "^4.0.0",
-    "restify": "^5.2.0"
+    "restify": "^5.2.0",
+    "tinyreq": "^3.2.5"
   }
 }
