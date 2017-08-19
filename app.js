@@ -21,8 +21,24 @@ function memeify(args,session) {
         session.send('Too few arguments provided, memeify failed.');
         return -1;
     } else {
-        let times = args.length == 1 ? DEFAULT_MEMEIFY_TIMES : parseInt(args[0]); 
-        let str = args.length == 1 ? args.join(' ') : args.slice(1).join(' ');
+        args = args.split(' ');
+        var times = parseInt(args[0]);
+        var reverse = false;
+        // if you can't parse the first arg as an int, use the default number
+        if(isNaN(times)){ 
+            times = DEFAULT_MEMEIFY_TIMES;
+        // if you can parse it as an int, don't include it in the output
+        } else {
+            if (times < 0) {
+                reverse = true;
+                times = Math.abs(times);
+            }
+            if (times <= 0) {
+                times = DEFAULT_MEMEIFY_TIMES;
+            }
+            args = args.slice(1);
+        }
+        let str = args.join(' '); 
         // make an array out of the rest of the arguments
         let chars = [...str];
         console.log('Memeify command received with times argument: ' + times + ' and the string argument: ' + str);
@@ -35,6 +51,9 @@ function memeify(args,session) {
             var word = chars.join(' '.repeat(i));
             word = ' '.repeat(times - i) + word;
             output.push(word);
+        }
+        if(reverse) {
+            output = output.reverse();
         }
         // Add "empty string" to the beginning of the output
         output.unshift(getSendersFirstName(session) + ' says:');
