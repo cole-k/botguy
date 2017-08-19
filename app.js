@@ -54,19 +54,19 @@ function detonate(args, session) {
     var parsedIntArgs = parseIntArg(args, 'detonate', 0, session),
         str = parsedIntArgs[0],
         type = parsedIntArgs[1],
-        reverse = false,
-        tranpose = true;
+        reverseOutput = false,
+        transposeOutput = true;
     // Type 2 means tranpose, type -1 means reverse, type -2 means reverse and transpose
     switch (type) {
         case -2:
-            reverse = true;
-            transpose = false;
+            reverseOutput = true;
+            transposeOutput = false;
             break;
         case -1:
-            reverse = true;
+            reverseOutput = true;
             break;
         case 2:
-            tranpose = false;
+            transposeOutput = false;
             break;
         default:
             break;
@@ -79,10 +79,10 @@ function detonate(args, session) {
         output[i] =  spaces + [...chars[i].repeat(i+1)].join(' ') + spaces;
     }
     // order matters
-    if(reverse) {
+    if(reverseOutput) {
         output = output.reverse();
     }
-    if(transpose) {
+    if(transposeOutput) {
         // tranpose the array once we split the strings into character arrays so it becomes truly 2D
         let transposed = transpose(output.map( (row) => {return [...row];}));
         // now convert back to a string
