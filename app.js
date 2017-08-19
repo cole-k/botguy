@@ -253,5 +253,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         words = words.slice(1);
     }
     words = words.join(' ');
+    // let people know botguy's received a message by sending a typing indicator
+    session.sendTyping();
     parser.parse(words,session);
 });
