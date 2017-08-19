@@ -15,8 +15,8 @@ function help(args, session) {
 
 function helpDefault(args, session) {
     session.send(
-        ` Learn more about a particular command with _help command_\n
-        COMMANDNAME (alts) [flags] args - description\n
+        ` Learn more about a particular command with _help command_
+        COMMANDNAME (alts) [flags] args - description
         memeify (m) [n] string- 'memeifies' a string\n
         detonate (d) [n] string - 'detonates' a string\n
         whois string - ask about a person\n
