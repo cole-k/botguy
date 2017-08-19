@@ -89,7 +89,9 @@ function detonate(args, session) {
         output = transposed.map( (row) => {return row.join('')});
     }
     // join the array back
-    output = output.join('\n\n');
+    output.unshift('```');
+    output.push('```');
+    output.join('\n');
     console.log(output);
     session.send(getSendersFirstName(session) + ' says: \n\n'.concat(output));
 }
@@ -119,9 +121,6 @@ function memeify(args,session) {
     if(reverse) {
         output = output.reverse();
     }
-    // Add code formatting
-    output.push('```');
-    output.unshift('```');
     // Add who's sending it to the beginning of the output
     output.unshift(getSendersFirstName(session) + ' says:');
     session.send(output.join('\n\n'));
