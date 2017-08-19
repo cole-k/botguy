@@ -33,7 +33,7 @@ function randomYam(session) {
                 index = Math.floor(Math.random() * regular.length),
                 item = regular.eq(index).children('a').first(),
                 id = item.attr('id'),
-                yam = '#' + id + ': ' + item.text().replace(/\n/,'');
+                yam = 'No.' + id + ': ' + item.text().replace(/\n/,'');
             session.send(yam);
         }
     });
@@ -50,7 +50,7 @@ function randomFeaturedYam(session) {
                 index = Math.floor(Math.random() * featured.length),
                 item = featured.eq(index).children('a').first(),
                 id = item.attr('href').match(/\d+$/),
-                yam = '#' + id + ': ' + item.text().replace(/\n/,'');
+                yam = 'No.' + id + ': ' + item.text().replace(/\n/,'');
             session.send(yam);
         }
     });
@@ -64,7 +64,9 @@ function yamWithID(ID, session) {
         if (err) { console.log(err);}
         else {
             let yam = data['#'.concat(ID)].text().replace(/\n/,'');
-            session.send('#' + ID + ': ' + yam);
+            if (yam) {
+                session.send('No.' + ID + ': ' + yam);
+            }
         }
     });
 }
