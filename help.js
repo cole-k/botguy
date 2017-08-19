@@ -15,13 +15,13 @@ function help(args, session) {
 
 function helpDefault(args, session) {
     session.send(
-        ` Learn more about a particular command with _help [command]_
-        COMMANDNAME (alts) [flags] args - description
-        memeify (m) [n] string - 'memeifies' a string 
-        detonate (d) [n] string - 'detonates' a string
-        whois string - ask about a person
-        niceone (n1) [minus get list] person - gives the person a niceone
-        yam (y) [random featured get post] - retrieves or posts to the meme machine
+        ` Learn more about a particular command with {code}help command{code}\n
+        {code}COMMANDNAME (alts) [flags] args{code} - description\n
+        {code}memeify (m) [n] string{code}- 'memeifies' a string\n
+        {code}detonate (d) [n] string{code} - 'detonates' a string\n
+        {code}whois string{code} - ask about a person\n
+        {code}niceone (n1) [minus get list] person{code} - give or list niceones\n
+        {code}yam (y) [random featured get post]{code} - retrieves or posts to the meme machine\n
         `
     );
 }
