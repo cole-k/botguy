@@ -1,11 +1,15 @@
 // set up environment
 //require('dotenv').config();
 
+var restify = require('restify');
+var builder = require('botbuilder');
+var ArgParser = require('./argparse.js');
+
 let DEFAULT_MEMEIFY_TIMES = 3;
 // talk abut hardcoding amiright
 // let ADMIN_ID = 'cole.cherian1';
 
-// retrieve's a sender's first name
+// retrieve a sender's first name
 function getSendersFirstName(session) {
     let name = session.message.user.name;
     return name.split(' ')[0];
@@ -28,7 +32,6 @@ function memeify(args,session) {
         }
         var output = [];
         for(i = 0; i <= times; i++){
-            console.log(i);
             var word = chars.join(' '.repeat(i));
             word = ' '.repeat(times - i) + word;
             output.push(word);
@@ -42,106 +45,57 @@ function memeify(args,session) {
     }
 }
 
+var whoisParser = new ArgParser();
+whoisParser.addArg(['here'], (args,session) => {
+    session.send('I am, ' + getSendersFirstName(session) + '.');
+});
+whoisParser.addArg(['botguy'], (args,session) => {
+    session.send('A helpful bot. Maybe.');
+});
+
 // whois
 function whois(args,session) {
-    if(args.length == 0){
-        // don't send a message if the whois command isn't applicable
-        return -1;
+    whoisParser.parse(args,session);
+}
+
+function listNiceOnes(session) {
+    niceOnesArray = [];
+    Object.keys(session.conversationData.niceOne).forEach( function(key) {
+        niceOnesArray.push([key,session.conversationData.niceOne[key]]);
+    });
+    var output = niceOnesArray.sort( function (a,b) {return b[1] - a[1];} );
+    outputMessage = ['Nice ones:'];
+    output.forEach( function(item) {
+        outputMessage.push(item[0] + ': ' + item[1]);
+    });
+    session.send(outputMessage.join('\n\n'));
+}
+
+function getNiceOnes(user, session) {
+    var userKey = user.toLowerCase();
+    // If given 'me', try to get the nice ones for the user's first name
+    if(userKey === 'me'){
+        user = getSendersFirstName(session);
+        userKey = user.toLowerCase();
+    // otherwise, just get the user's nice ones
+    } else if(userKey === '') {
+        listNiceOnes(session);
     } else {
-        args = args.join(' ');
-        if(args === 'here') {
-            session.send('I am, ' + getSendersFirstName(session) + '.');
+        let niceOnes = session.conversationData.niceOne[userKey];
+        if(!niceOnes){
+            niceOnes = 0;
         }
-        if(args === 'botguy') {
-            session.send('A helpful bot. Maybe.');
-        }
+        session.send('Nice ones for ' + user + ': ' + niceOnes);
     }
 }
 
-function niceone(args,session) {
-    if (args.length === 0){
-        return -1;
+function addNiceOne(user, session) {
+    if(user === '') {
+        // because it's called with @botguy niceone,
+        // make this the default
+        addNiceOne('botguy', session);
+        return;
     }
-    if (!session.conversationData.niceOne) {
-        console.log("Key niceOne doesn't exist, creating...");
-        session.conversationData.niceOne = {};
-    }
-    // NOTE: ID doesn't work in group chats
-    // // set a value
-    // if (args[0].toLowerCase() === 'set') {
-    //     if (session.message.user.id === ADMIN_ID) {
-    //         var user =  args.slice(1,-1).join(' ');
-    //         var value = parseInt(args[args.length - 1]);
-    //         session.conversationData.niceOne[user.toLowerCase()] = value;
-    //         session.save();
-    //         session.send('Set the nice ones of ' + user + ' to ' + value + '.');
-    //         return 0;
-    //         }
-    //     return -1;
-    // }
-    // // remove a user from the nice ones list 
-    // if (args[0].toLowerCase() === 'remove') { 
-    //     if (session.message.user.id === ADMIN_ID){
-    //         var user = args.slice(1).join(' ');
-    //         var userKey = user.toLowerCase();
-    //         if(session.conversationData.niceOne[userKey]){
-    //             delete session.conversationData.niceOne[userKey];
-    //         }
-    //         session.save();
-    //         session.send('Removed user ' + userKey + '.');
-    //         return 0;
-    //     }
-    //     return -1;
-    // }
-    // if called with 'minus', subtract one from the following key's nice ones.
-    if (args[0].toLowerCase() === 'm' || args[0].toLowerCase() === 'minus') {
-        if (args.slice(1).length === 0) {
-            return -1;
-        }
-        var user = args.slice(1).join(' ');
-        var userKey = user.toLowerCase();
-        if (session.conversationData.niceOne[userKey]) {
-            session.conversationData.niceOne[userKey] -= 1;
-            session.send('Not so nice one, ' + user + '. 👎\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey] + '.');
-            if (session.conversationData.niceOne[userKey] == 0) {
-                delete session.conversationData.niceOne[userKey];
-                session.send('User ' + user + "'s nice one value fell to zero, removing from the list...");
-            }
-        }
-        return 0;
-    }
-    // if called with 'get', get the nice ones.
-    if (args[0].toLowerCase() === 'get'){
-        var user = args.slice(1).join(' ');
-        var userKey = user.toLowerCase();
-        // If given 'me', try to get the nice ones for the user's first name
-        if(userKey === 'me'){
-            user = getSendersFirstName(session);
-            userKey = user.toLowerCase();
-        }
-        // If given nothing, get all the nice ones
-        if(userKey === ''){
-            niceOnesArray = [];
-            Object.keys(session.conversationData.niceOne).forEach( function(key) {
-                niceOnesArray.push([key,session.conversationData.niceOne[key]]);
-            });
-            var output = niceOnesArray.sort( function (a,b) {return b[1] - a[1];} );
-            outputMessage = ['Nice ones:'];
-            output.forEach( function(item) {
-                outputMessage.push(item[0] + ': ' + item[1]);
-            });
-            session.send(outputMessage.join('\n\n'));
-            return 0;
-        } else {
-            let niceOnes = session.conversationData.niceOne[userKey];
-            if(!niceOnes){
-                niceOnes = 0;
-            }
-            session.send('Nice ones for ' + user + ': ' + niceOnes);
-            return 0;
-        }
-    }
-    user = args.join(' ');
     userKey = user.toLowerCase();
     if(!session.conversationData.niceOne[userKey]) {
         console.log("Key " + userKey + " doesn't exist, creating...");
@@ -150,12 +104,37 @@ function niceone(args,session) {
         session.conversationData.niceOne[userKey] += 1;
     }
     session.save();
-    session.send('Nice one, ' + user + '. 👍\n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey]);
-    return 0;
+    session.send('👍 Nice one, ' + user + '. \n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey]);
 }
 
-var restify = require('restify');
-var builder = require('botbuilder');
+function subtractNiceOne(user, session) {
+    if (user === '') {
+        return -1;
+    }
+    var userKey = user.toLowerCase();
+    if (session.conversationData.niceOne[userKey]) {
+        session.conversationData.niceOne[userKey] -= 1;
+        session.send('👎 Not so nice one, ' + user + '. \n\nCurrent nice ones: ' + session.conversationData.niceOne[userKey] + '.');
+        if (session.conversationData.niceOne[userKey] == 0) {
+            delete session.conversationData.niceOne[userKey];
+            session.send('User ' + user + "'s nice one value fell to zero, removing from the list...");
+        }
+    }
+}
+
+niceOneParser = new ArgParser(addNiceOne);
+niceOneParser.addArg(['m','minus'],subtractNiceOne);
+niceOneParser.addArg(['get'],getNiceOnes);
+niceOneParser.addArg(['list'],(args, session) => {listNiceOnes(session);});
+
+function niceOne(args,session) {
+    if (!session.conversationData.niceOne) {
+        console.log("Key niceOne doesn't exist, creating...");
+        session.conversationData.niceOne = {};
+    }
+    niceOneParser.parse(args,session);
+}
+
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -172,36 +151,19 @@ var connector = new builder.ChatConnector({
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
 
+var parser = new ArgParser();
+parser.addArg(['m', 'memeify'], memeify);
+parser.addArg(['n1', 'niceone'], niceOne);
+parser.addArg(['whois'], whois);
+
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
     // Split on spaces
-    words = session.message.text.split(' ');
+    var words = session.message.text.split(' ');
     if(words[0] === '@botguy') {
         // cut off the @botguy part of the message
         words = words.slice(1);
     }
-    // The first word's the command
-    command = words[0].toLowerCase();
-    // The rest are the arguments
-    args = words.slice(1);
-    switch(command) {
-        case 'm':
-            memeify(args,session);
-            break;
-        case 'memeify':
-            memeify(args,session);
-            break;
-        case 'whois':
-            whois(args,session);
-            break;
-        case 'niceone':
-            niceone(args,session);
-            break;
-        case 'n1':
-            niceone(args,session);
-            break;
-        case 'n':
-            niceone(args,session);
-            break;
-    }
+    words = words.join(' ');
+    parser.parse(words,session);
 });
