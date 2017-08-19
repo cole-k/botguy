@@ -9,59 +9,121 @@ let DEFAULT_MEMEIFY_TIMES = 3;
 // talk abut hardcoding amiright
 // let ADMIN_ID = 'cole.cherian1';
 
+function transpose(matrix) {
+    var output = [];
+    // we want the row's length
+    for(i = 0; i < matrix[0].length; i++) {
+        output.push([]);
+    }
+
+    for(i = 0; i < matrix.length; i++) {
+        for(j = 0; j < matrix[0].length; j++) {
+            output[j].push(matrix[i][j]);
+        }
+    }
+    return output;
+}
+
 // retrieve a sender's first name
 function getSendersFirstName(session) {
     let name = session.message.user.name;
     return name.split(' ')[0];
 }
 
-// memeifies a string
-function memeify(args,session) {
+function parseIntArg(args, name, defaultVal, session) {
     if(args.length === 0){
-        session.send('Too few arguments provided, memeify failed.');
+        session.send('Too few arguments provided, ' + name + ' failed.');
         return -1;
     } else {
         args = args.split(' ');
-        var times = parseInt(args[0]);
-        var reverse = false;
+        var int = parseInt(args[0]);
         // if you can't parse the first arg as an int, use the default number
-        if(isNaN(times)){ 
-            times = DEFAULT_MEMEIFY_TIMES;
+        if(isNaN(int)){ 
+            int = defaultVal;
         // if you can parse it as an int, don't include it in the output
         } else {
-            if (times < 0) {
-                reverse = true;
-                times = Math.abs(times);
-            }
-            if (times <= 0) {
-                times = DEFAULT_MEMEIFY_TIMES;
-            }
             args = args.slice(1);
         }
-        let str = args.join(' '); 
-        // make an array out of the rest of the arguments
-        let chars = [...str];
-        console.log('Memeify command received with times argument: ' + times + ' and the string argument: ' + str);
-        if (times === NaN) {
-            session.send('Invalid number, memeify failed.');
-            return -1;
-        }
-        var output = [];
-        for(i = 0; i <= times; i++){
-            var word = chars.join(' '.repeat(i));
-            word = ' '.repeat(times - i) + word;
-            output.push(word);
-        }
-        if(reverse) {
-            output = output.reverse();
-        }
-        // Add "empty string" to the beginning of the output
-        output.unshift(getSendersFirstName(session) + ' says:');
-        session.send(output.join('\n\n'));
-        console.log('Memeify successful, output: ');
-        console.log(output.join('\n'));
-        return 0;
+        return [args.join(' '), int];
     }
+
+}
+
+// detonates a string
+function detonate(args, session) {
+    var parsedIntArgs = parseIntArg(args, 'detonate', 0, session),
+        str = parsedIntArgs[0],
+        type = parsedIntArgs[1],
+        reverse = false,
+        tranpose = true;
+    // Type 2 means tranpose, type -1 means reverse, type -2 means reverse and transpose
+    switch (type) {
+        case -2:
+            reverse = true;
+            transpose = false;
+            break;
+        case -1:
+            reverse = true;
+            break;
+        case 2:
+            tranpose = false;
+            break;
+        default:
+            break;
+    }
+    let chars = [...str];
+    var output = [];
+    for(i = 0; i < chars.length; i++) {
+        // just a tad obfuscated-looking
+        spaces = ' '.repeat(chars.length - (i+1))
+        output[i] =  spaces + [...chars[i].repeat(i+1)].join(' ') + spaces;
+    }
+    // order matters
+    if(reverse) {
+        output = output.reverse();
+    }
+    if(transpose) {
+        // tranpose the array once we split the strings into character arrays so it becomes truly 2D
+        let transposed = transpose(output.map( (row) => {return [...row];}));
+        // now convert back to a string
+        output = transposed.map( (row) => {return row.join('')});
+    }
+    // join the array back
+    output = output.join('\n\n');
+    console.log(output);
+    session.send(getSendersFirstName(session) + ' says: \n\n'.concat(output));
+}
+
+// memeifies a string
+function memeify(args,session) {
+    var parsedIntArgs = parseIntArg(args, 'memeify', DEFAULT_MEMEIFY_TIMES, session),
+        str = parsedIntArgs[0],
+        times = parsedIntArgs[1],
+        reverse = false;
+    if(times < 0) {
+        reverse = true
+        times = Math.abs(times);
+    }
+    if(times == 0) {
+        times = DEFAULT_MEMEIFY_TIMES;
+    }
+    // make an array out of the rest of the arguments
+    let chars = [...str];
+    console.log('Memeify command received with times argument: ' + times + ' and the string argument: ' + str);
+    var output = [];
+    for(i = 0; i <= times; i++){
+        var word = chars.join(' '.repeat(i));
+        word = ' '.repeat(times - i) + word;
+        output.push(word);
+    }
+    if(reverse) {
+        output = output.reverse();
+    }
+    // Add "empty string" to the beginning of the output
+    output.unshift(getSendersFirstName(session) + ' says:');
+    session.send(output.join('\n\n'));
+    console.log('Memeify successful, output: ');
+    console.log(output.join('\n'));
 }
 
 var whoisParser = new ArgParser();
@@ -174,6 +236,7 @@ var parser = new ArgParser();
 parser.addArg(['m', 'memeify'], memeify);
 parser.addArg(['n1', 'niceone'], niceOne);
 parser.addArg(['whois'], whois);
+parser.addArg(['d', 'detonate'], detonate);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
