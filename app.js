@@ -242,6 +242,7 @@ parser.addArg(['n1', 'niceone'], niceOne);
 parser.addArg(['whois'], whois);
 parser.addArg(['d', 'detonate'], detonate);
 parser.addArg(['thank','thanks'], thank);
+parser.addArg(['e', 'echo'], (arg, session) => {session.send(arg);});
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
