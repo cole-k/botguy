@@ -119,7 +119,10 @@ function memeify(args,session) {
     if(reverse) {
         output = output.reverse();
     }
-    // Add "empty string" to the beginning of the output
+    // Add code formatting
+    output.push('```');
+    output.unshift('```');
+    // Add who's sending it to the beginning of the output
     output.unshift(getSendersFirstName(session) + ' says:');
     session.send(output.join('\n\n'));
     console.log('Memeify successful, output: ');
@@ -220,6 +223,12 @@ function thank(args, session) {
     session.send("You're welcome, " + getSendersFirstName(session) + '.');
 }
 
+var helpParser = new ArgParser();
+
+function help(args, session) {
+
+}
+
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -243,6 +252,7 @@ parser.addArg(['whois'], whois);
 parser.addArg(['d', 'detonate'], detonate);
 parser.addArg(['thank','thanks'], thank);
 parser.addArg(['e', 'echo'], (arg, session) => {session.send(arg);});
+parser.addArg(['h', 'help'], help);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
