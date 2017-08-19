@@ -216,6 +216,10 @@ function niceOne(args,session) {
     niceOneParser.parse(args,session);
 }
 
+function thank(args, session) {
+    session.send("You're welcome, " + getSendersFirstName(session) + '.');
+}
+
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -237,6 +241,7 @@ parser.addArg(['m', 'memeify'], memeify);
 parser.addArg(['n1', 'niceone'], niceOne);
 parser.addArg(['whois'], whois);
 parser.addArg(['d', 'detonate'], detonate);
+parser.addArg(['thank','thanks'], thank);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
