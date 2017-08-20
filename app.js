@@ -63,7 +63,7 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
     // Split on spaces
     var words = session.message.text.split(' ');
-    if(words[0] === '@botguy') {
+    if(words[0] === '@botguy' || words[0] === 'botguy') {
         // cut off the @botguy part of the message if he's being mentioned
         words = words.slice(1);
     }
