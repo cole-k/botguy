@@ -17,11 +17,11 @@ function helpDefault(args, session) {
     session.send(
         `Learn more about a particular command with _help command_\n
         COMMANDNAME (alts) [flags] args - description\n
-        memeify (m) [n] string- 'memeifies' a string\n
-        detonate (d) [n] string - 'detonates' a string\n
+        memeify  ( m ) [n] string- 'memeifies' a string\n
+        detonate ( d ) [n] string - 'detonates' a string\n
         whois person - ask about a person\n
-        niceone (n1) [minus get list] person - give or list niceones\n
-        yam (y) [random featured get post] - retrieves or posts to the meme machine
+        niceone ( n1 ) [minus get list] person - give or list niceones\n
+        yam ( y ) [random featured get post] - retrieves or posts to the meme machine
         `
     );
 }
@@ -66,7 +66,7 @@ function helpNiceOne(args, session) {
         Called like: (niceone n1) [(minus m) get list] person\n
         Flags:\n
               [no flag] - add a nice one to person\n
-              minus (m) - subtract a niceone from person (works only if person has >= 1 nice ones)\n
+              minus ( m ) - subtract a niceone from person (works only if person has >= 1 nice ones)\n
               get - get the nice ones of person (called without a person works the same as list)\n
               list - lists all nice ones (takes no argument)\n
         Args:\n
@@ -81,10 +81,10 @@ function helpYam(args, session) {
         Called like: (yam y) [(random r) (featured fe) (first f) (post p)] (id meme)\n
         Flags:\n
               [no flag] - Gets the meme at id (if given no id, gets a random meme)\n
-              random (r) - Gets a random meme\n
-              featured (fe) - Gets a random featured meme\n
-              first (f) - Gets the first meme\n
-              post (p) - Posts the meme given\n
+              random ( r ) - Gets a random meme\n
+              featured ( fe ) - Gets a random featured meme\n
+              first ( f ) - Gets the first meme\n
+              post ( p ) - Posts the meme given\n
         Args:\n
               id - id of the meme to get (only when called without a flag)\n
               meme - text of the meme to post (only for the command post)
