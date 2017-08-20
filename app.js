@@ -7,6 +7,7 @@
 var restify = require('restify'),
     builder = require('botbuilder'),
     ArgParser = require('./argparse.js'),
+    helper = require('./helper.js'),
     // individual functions 
     memeify = require('./memeify.js'),
     detonate = require('./detonate.js'),
@@ -28,7 +29,7 @@ parser.addArg(['y', 'yam'], yam);
 
 var whoisParser = new ArgParser();
 whoisParser.addArg(['here'], (args,session) => {
-    session.send('I am, ' + getSendersFirstName(session) + '.');
+    session.send('I am, ' + helper.getSendersFirstName(session) + '.');
 });
 whoisParser.addArg(['botguy'], (args,session) => {
     session.send('A helpful bot. Maybe.');
@@ -40,7 +41,7 @@ function whois(args,session) {
 }
 
 function thank(args, session) {
-    session.send("You're welcome, " + getSendersFirstName(session) + '.');
+    session.send("You're welcome, " + helper.getSendersFirstName(session) + '.');
 }
 
 /* Default bot setup */
