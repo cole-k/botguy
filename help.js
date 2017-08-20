@@ -7,7 +7,7 @@ parser.addArg(['memeify','m'],helpMemeify);
 parser.addArg(['detonate','d'],helpDetonate);
 parser.addArg(['whois'],helpWhois);
 parser.addArg(['niceone','n1'],helpNiceOne);
-//parser.addArg(['yam','y'],helpYam);
+parser.addArg(['yam','y'],helpYam);
 
 function help(args, session) {
     parser.parse(args,session);
@@ -35,7 +35,7 @@ function helpMemeify(args, session) {
         Args:\n
               string - string to memeify
         `
-    )
+    );
 }
 
 function helpDetonate(args, session) {
@@ -48,7 +48,7 @@ function helpDetonate(args, session) {
         Args:\n
               string - string to detonate
         `
-    )
+    );
 }
 
 function helpWhois(args, session) {
@@ -57,7 +57,7 @@ function helpWhois(args, session) {
         Called like: whois person\n
         Supported people: botguy, here
         `
-    )
+    );
 }
 
 function helpNiceOne(args, session) {
@@ -72,7 +72,24 @@ function helpNiceOne(args, session) {
         Args:\n
               person - the target person
         `
-    )
+    );
+}
+
+function helpYam(args, session) {
+    session.send(
+        `Yam: Retrieve or post to the meme machine (meme-machine.xyz)\n
+        Called like: (yam y) [(random r) (featured fe) (first f) (post p)] (id meme)\n
+        Flags:\n
+              [no flag] - Gets the meme at id (if given no id, gets a random meme)\n
+              random (r) - Gets a random meme\n
+              featured (fe) - Gets a random featured meme\n
+              first (f) - Gets the first meme\n
+              post (p) - Posts the meme given\n
+        Args:\n
+              id - id of the meme to get (only when called without a flag)\n
+              meme - text of the meme to post (only for the command post)
+        `
+    );
 }
 
 module.exports = help;
