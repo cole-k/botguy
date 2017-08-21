@@ -3,6 +3,8 @@
 
 /* botguy setup */
 
+let DEBUG = true;
+
     // modules 
 var restify = require('restify'),
     builder = require('botbuilder'),
@@ -71,5 +73,8 @@ var bot = new builder.UniversalBot(connector, function (session) {
     words = words.join(' ');
     // let people know botguy's received a message by sending a typing indicator
     session.sendTyping();
+    if (DEBUG) {
+        session.send(helper.getSendersFirstName(session) + ' said: ' + session.message.text);
+    }
     parser.parse(words,session);
 });
