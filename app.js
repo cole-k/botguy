@@ -68,7 +68,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         session.send(helper.getSendersFirstName(session) + ' says: ' + session.message.text);
     }
     // Split on spaces
-    var words = session.message.text.split(' ');
+    var words = session.message.text.split();
     if((words[0] === '@botguy') || (words[0] === 'botguy')) {
         // cut off the @botguy part of the message if he's being mentioned
         words = words.slice(1);
