@@ -3,7 +3,7 @@
 
 /* botguy setup */
 
-let DEBUG = true;
+let DEBUG = false;
 
     // modules 
 var restify = require('restify'),
