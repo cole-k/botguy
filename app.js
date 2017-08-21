@@ -64,6 +64,9 @@ var connector = new builder.ChatConnector({
 server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector, function (session) {
+    if (DEBUG) {
+        session.send(helper.getSendersFirstName(session) + ' said: ' + session.message.text);
+    }
     // Split on spaces
     var words = session.message.text.split(' ');
     if(words[0] === '@botguy' || words[0] === 'botguy') {
@@ -73,8 +76,5 @@ var bot = new builder.UniversalBot(connector, function (session) {
     words = words.join(' ');
     // let people know botguy's received a message by sending a typing indicator
     session.sendTyping();
-    if (DEBUG) {
-        session.send(helper.getSendersFirstName(session) + ' said: ' + session.message.text);
-    }
     parser.parse(words,session);
 });
