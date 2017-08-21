@@ -65,7 +65,7 @@ server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector, function (session) {
     if (DEBUG) {
-        session.send('Received: ' + session.message.text);
+        session.send(helper.getSendersFirstName(session) + 'says: ' + session.message.text);
     }
     // Split on spaces
     var words = session.message.text.split(' ');

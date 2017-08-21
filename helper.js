@@ -18,7 +18,11 @@ function transpose(matrix) {
 // retrieve a sender's first name
 function getSendersFirstName(session) {
     let name = session.message.user.name;
-    return name.split(' ')[0];
+    if (name) {
+        return name.split(' ')[0];
+    } else {
+        return 'Someone';
+    }
 }
 
 function parseIntArg(args, name, defaultVal, session) {
