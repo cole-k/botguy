@@ -3,7 +3,7 @@
 
 /* botguy setup */
 
-let DEBUG = false;
+let DEBUG = true;
 
     // modules 
 var restify = require('restify'),
@@ -64,18 +64,18 @@ var connector = new builder.ChatConnector({
 server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector, function (session) {
-    if (DEBUG) {
-        session.send(helper.getSendersFirstName(session) + ' says: ' + session.message.text);
-    }
     // Split on spaces
-    var words = session.message.text.split();
+    var words = session.message.text.split(/\s+/);
     if((words[0] === '@botguy') || (words[0] === 'botguy')) {
         // cut off the @botguy part of the message if he's being mentioned
         words = words.slice(1);
     }
-    session.send(words[0]);
     words = words.join(' ');
     // let people know botguy's received a message by sending a typing indicator
     session.sendTyping();
+    if (DEBUG) {
+        session.send(helper.getSendersFirstName(session) + ' says: ' + session.message.text);
+        session.send('Parsing the command: ' + words);
+    }
     parser.parse(words,session);
 });
