@@ -96,7 +96,7 @@ function firstYam(session) {
 }
 
 function postYam(yam, session) {
-     session.send('Attemting to post: ' + yam + '...');
+     session.send('Attempting to post: ' + yam + '...');
      req({
          url: 'http://meme-machine.xyz',
         method: 'POST',
@@ -105,7 +105,7 @@ function postYam(yam, session) {
          (err, body) => {
              if(err) {
                  console.log(err);
-             }/* else {
+             }else {
                 var thisYam = yam.replace(/\n/,'')
                 getFirstYam( (firstYam, id) => {
                 console.log(firstYam, thisYam);
@@ -113,7 +113,7 @@ function postYam(yam, session) {
                     session.send('Created No. ' + id + ': ' + yam);
                 }
                 });
-             }*/
+             }
          }
      );
 }
