@@ -100,7 +100,7 @@ function firstYam(session) {
     getFirstYam((yam, id) => {session.send('No. ' + id  + ': ' + yam);});
 }
 
-function searchYam(args, session,){ 
+function searchYam(args, session) { 
     let output = helper.parseIntArg(args, 'Search', DEFAULT_QUERY_LIMIT, session),
         query = output[0],
         limit = output[1];
