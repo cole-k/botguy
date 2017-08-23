@@ -78,16 +78,19 @@ function helpNiceOne(args, session) {
 function helpYam(args, session) {
     session.send(
         `Yam: Retrieve or post to the meme machine (meme-machine.xyz)\n
-        Called like: (yam y) [(random r) (featured fe) (first f) (post p)] (id meme)\n
+        Called like: (yam y) [(random r) (featured fe) (first f) (post p)] (id lim) meme\n
         Flags:\n
               [no flag] - Gets the meme at id (if given no id, gets a random meme)\n
               random ( r ) - Gets a random meme\n
               featured ( fe ) - Gets a random featured meme\n
               first ( f ) - Gets the first meme\n
               post ( p ) - Posts the meme given\n
+              search (s find) - Searches the machine for the meme
         Args:\n
               id - id of the meme to get (only when called without a flag)\n
-              meme - text of the meme to post (only for the command post)
+              lim - the number of results to return for search\n
+                    returns all if 0, indexes from behind if negative\n
+              meme - text of the meme to post or search
         `
     );
 }

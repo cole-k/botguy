@@ -1,6 +1,7 @@
 const req = require('tinyreq'),
     cheerio = require('cheerio'),
     scrape = require('./webscraper.js'),
+    helper = require('./helper.js'),
     ArgParser = require('./argparse.js'),
     
     DEFAULT_QUERY_LIMIT = 7;
@@ -99,7 +100,11 @@ function firstYam(session) {
     getFirstYam((yam, id) => {session.send('No. ' + id  + ': ' + yam);});
 }
 
-function searchYam(query, session, limit = DEFAULT_QUERY_LIMIT) {
+function searchYam(args, session,){ 
+    let output = helper.parseIntArg(args, 'Search', DEFAULT_QUERY_LIMIT, session),
+        query = output[0],
+        limit = output[1];
+        
     req('http://meme-machine.xyz', (err, body) => {
         if (err) { return callback(err);}
 
@@ -114,10 +119,21 @@ function searchYam(query, session, limit = DEFAULT_QUERY_LIMIT) {
                 text = yam.text().replace(/\n/,''),
                 id = yam.attr('id');
             output.push('No. ' + id + ': ' + text);
-        });
-       output = output.slice(0,limit);
-       output.unshift('Showing ' + output.length + ' of ' + results.length);
-       session.send(output.join('\n\n'));
+        }); 
+        // if less than zero, index from the back
+        if(limit < 0) {
+            output = output.slice(output.length + limit);
+        // otherwise, limit from the front
+        } else if(limit >  0) {
+            output = output.slice(0,limit);
+        }
+        // note that if it's equal to 0, we don't slice at all
+        if(output.length > 0){
+            output.unshift('Showing ' + output.length + ' of ' + results.length);
+            session.send(output.join('\n\n'));
+        } else {
+            session.send('No results found for query: ' + query);
+        }
     });
 }
 
