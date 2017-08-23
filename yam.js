@@ -1,11 +1,15 @@
 const req = require('tinyreq'),
+    cheerio = require('cheerio'),
     scrape = require('./webscraper.js'),
-    ArgParser = require('./argparse.js');
+    ArgParser = require('./argparse.js'),
+    
+    DEFAULT_QUERY_LIMIT = 7;
 
 parser = new ArgParser(defaultYam);
 parser.addArg(['random','r'],(args, session) => {randomYam(session)});
 parser.addArg(['featured','fe'], (args, session) => {randomFeaturedYam(session)});
 parser.addArg(['first','f'], (args,session) => {firstYam(session)});
+parser.addArg(['search','s','find'], searchYam);
 parser.addArg(['post','p'], postYam); 
 
 function yam(args, session) {
@@ -93,6 +97,28 @@ function getFirstYam(callback) {
 
 function firstYam(session) {
     getFirstYam((yam, id) => {session.send('No. ' + id  + ': ' + yam);});
+}
+
+function searchYam(query, session, limit = DEFAULT_QUERY_LIMIT) {
+    req('http://meme-machine.xyz', (err, body) => {
+        if (err) { return callback(err);}
+
+        let $ = cheerio.load(body),
+            regular = $('ul').last().children('li');
+            results = regular.filter( (i,el) => {
+                return $(el).children('a').first().text().toLowerCase().includes(query.toLowerCase());
+            }),
+            output = [];
+        results.each( (i,el) => {
+            let yam = $(el).children('a').first(),
+                text = yam.text().replace(/\n/,''),
+                id = yam.attr('id');
+            output.push('No. ' + id + ': ' + text);
+        });
+       output = output.slice(0,limit);
+       output.unshift('Showing ' + output.length + ' of ' + results.length);
+       session.send(output.join('\n\n'));
+    });
 }
 
 function postYam(yam, session) {
