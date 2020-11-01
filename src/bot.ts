@@ -1,5 +1,5 @@
 import { ActivityHandler, MessageFactory } from 'botbuilder';
-import { CommandParser } from './commandparser';
+import { CommandParser } from './CommandParser';
 import { NiceOneHandler } from './niceone';
 import { simpleMessage } from './utils';
 

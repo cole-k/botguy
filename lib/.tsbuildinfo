@@ -1447,19 +1447,9 @@
         "affectsGlobalScope": false
       },
       "../src/bot.ts": {
-        "version": "44937c2fd1c8825ec4775aa76219eb507c0357b1df151e0161871af92dccc897",
+        "version": "5816e9aec013177d6ad51bb340d726870df336f8def9ea478c027cd95b3a3f7e",
         "signature": "96b61b36617e5fa5779d85d7cdc33e4666db87f6071db084a545eba477839733",
         "affectsGlobalScope": false
-      },
-      "../src/help.ts": {
-        "version": "07ba13211e2d2fb0c926e5db1067dc04b108031de05344e6d83e8a119e333759",
-        "signature": "405f61394b3f88ae359a2b12a43263425ff1194ac83e1cdddcb09d23a6b4137a",
-        "affectsGlobalScope": true
-      },
-      "../src/helper-old.ts": {
-        "version": "9c79116b866f61dea524f71c28f719d52adaaf11546319a0a3d3942b80620c42",
-        "signature": "41b6edfe396cde25e829446905600800a6f1c626351d78d7736af9c4e1a49e25",
-        "affectsGlobalScope": true
       },
       "../node_modules/dotenv/types/index.d.ts": {
         "version": "c9ae0b351a07b52f29a28e869d8c7c8d29743bbb5eeddc7c0b5b2a69a2450528",
@@ -3899,8 +3889,6 @@
       "../node_modules/dotenv/types/index.d.ts",
       "../src/bot.ts",
       "../src/commandparser.ts",
-      "../src/help.ts",
-      "../src/helper-old.ts",
       "../src/index.ts",
       "../src/niceone.ts",
       "../src/utils.ts",
