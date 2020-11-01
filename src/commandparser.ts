@@ -13,7 +13,7 @@ export class CommandParser {
     async parse(message: string, context, next) {
         const messageArgs = message.split(' ');
         // strip the mention
-        if (messageArgs[0] === 'botguy' || messageArgs[0] === '@botguy') {
+        if (messageArgs[0] === 'realbotguy' || messageArgs[0] === '@realbotguy') {
             messageArgs.slice(1);
         }
         const command = messageArgs[0];

@@ -1432,7 +1432,7 @@
         "affectsGlobalScope": false
       },
       "../src/commandparser.ts": {
-        "version": "f16e32036c938b3bbce242b7a1dd691d6c815d65238bfadbea269103e3988e58",
+        "version": "f7b24ab22eb69ca3568aa48f61892b0b88b40e22ce21449af461e11b068af1f4",
         "signature": "372ecd9a0daaf3b09d50151c930e110ad93536eb843e55064ef7e233accfbc26",
         "affectsGlobalScope": false
       },
@@ -1447,7 +1447,7 @@
         "affectsGlobalScope": false
       },
       "../src/bot.ts": {
-        "version": "5816e9aec013177d6ad51bb340d726870df336f8def9ea478c027cd95b3a3f7e",
+        "version": "265754eb2e7592387667dde9dc637e0bfe2f8d7a2f816115596471d8b6288247",
         "signature": "96b61b36617e5fa5779d85d7cdc33e4666db87f6071db084a545eba477839733",
         "affectsGlobalScope": false
       },
@@ -2547,6 +2547,7 @@
         "../node_modules/@types/node/index.d.ts"
       ],
       "../src/bot.ts": [
+        "../node_modules/botbuilder-core/lib/index.d.ts",
         "../node_modules/botbuilder/lib/index.d.ts",
         "../src/commandparser.ts",
         "../src/niceone.ts",

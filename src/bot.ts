@@ -1,4 +1,5 @@
 import { ActivityHandler, MessageFactory } from 'botbuilder';
+import { TurnContext } from 'botbuilder-core';
 import { CommandParser } from './CommandParser';
 import { NiceOneHandler } from './niceone';
 import { simpleMessage } from './utils';
@@ -23,7 +24,13 @@ export class BotGuyBot extends ActivityHandler {
         this.onMessage(async (context, next) => {
             console.log(`Received message from id: ${ context.activity.from.id }, name: ${ context.activity.from.name }`);
             console.log(`Message contents: ${ context.activity.text }`);
-            await parser.parse(context.activity.text, context, next);
+            TurnContext.getMentions(context.activity).forEach( (mention) => console.log('Mentioned ${ mention.name } (id ${ mention.id })'));
+            const messageArgs = context.activity.text.split(' ');
+            // strip the mention if it's there
+            if (messageArgs[0] === 'realbotguy' || messageArgs[0] === '@realbotguy') {
+                messageArgs.slice(1);
+            }
+            await parser.parse(messageArgs.join(' '), context, next);
         });
 
         // this.onMembersAdded(async (context, next) => {
