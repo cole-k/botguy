@@ -1,18 +1,36 @@
 {
-  "name": "botguy",
-  "version": "1.0.0",
-  "description": "a bot for skype",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "cole",
-  "license": "ISC",
-  "dependencies": {
-    "botbuilder": "^3.9.1",
-    "cheerio": "^1.0.0-rc.2",
-    "dotenv": "^4.0.0",
-    "restify": "^5.2.0",
-    "tinyreq": "^3.2.5"
-  }
+    "name": "botguy",
+    "version": "1.0.0",
+    "description": "exist or something",
+    "author": "Generated using Microsoft Bot Builder Yeoman generator v4.10.3",
+    "license": "MIT",
+    "main": "./lib/index.js",
+    "scripts": {
+        "build": "tsc --build",
+        "lint": "tslint -c tslint.json 'src/**/*.ts'",
+        "postinstall": "npm run build && node ./deploymentScripts/webConfigPrep.js",
+        "start": "tsc --build && node ./lib/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "nodemon --watch ./src -e ts --exec \"npm run start\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com"
+    },
+    "dependencies": {
+        "botbuilder": "~4.10.3",
+        "dotenv": "^8.2.0",
+        "pg": "^8.4.2",
+        "replace": "~1.1.1",
+        "restify": "~8.5.1",
+        "sequelize": "^6.3.5",
+        "sequelize-cli": "^6.2.0",
+        "tinyreq": "^3.2.5"
+    },
+    "devDependencies": {
+        "@types/restify": "8.4.2",
+        "nodemon": "~2.0.4",
+        "tslint": "~6.1.2",
+        "typescript": "~3.9.2"
+    }
 }
