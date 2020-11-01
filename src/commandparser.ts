@@ -12,10 +12,6 @@ export class CommandParser {
 
     async parse(message: string, context, next) {
         const messageArgs = message.split(' ');
-        // strip the mention
-        if (messageArgs[0] === 'realbotguy' || messageArgs[0] === '@realbotguy') {
-            messageArgs.slice(1);
-        }
         const command = messageArgs[0];
         const param = messageArgs.slice(1).join(' ');
         if (command in this.args) {

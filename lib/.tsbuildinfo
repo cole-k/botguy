@@ -1432,7 +1432,7 @@
         "affectsGlobalScope": false
       },
       "../src/commandparser.ts": {
-        "version": "f7b24ab22eb69ca3568aa48f61892b0b88b40e22ce21449af461e11b068af1f4",
+        "version": "15ae11f202332e2d42da46df737f3ba80ce7e6eed2d68c37e5a207c9333fdfc7",
         "signature": "372ecd9a0daaf3b09d50151c930e110ad93536eb843e55064ef7e233accfbc26",
         "affectsGlobalScope": false
       },
@@ -1447,7 +1447,7 @@
         "affectsGlobalScope": false
       },
       "../src/bot.ts": {
-        "version": "312d0d93f74aa9bf15cc0a49a68913e7b1107a333d687eea768389b1aefec668",
+        "version": "3fe298eb53d3b19202fcccbdd4c80a9b2b8194663c3b444f1ea4918b1c37e1d3",
         "signature": "96b61b36617e5fa5779d85d7cdc33e4666db87f6071db084a545eba477839733",
         "affectsGlobalScope": false
       },

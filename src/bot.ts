@@ -24,7 +24,7 @@ export class BotGuyBot extends ActivityHandler {
         this.onMessage(async (context, next) => {
             console.log(`Received message from id: ${ context.activity.from.id }, name: ${ context.activity.from.name }`);
             console.log(`Message contents: ${ context.activity.text }`);
-            TurnContext.getMentions(context.activity).forEach( (mention) => console.log(`Mentioned ${ mention.mentioned.name } (id ${ mention.mentioned.id })`));
+            TurnContext.getMentions(context.activity).forEach( (mention) => console.log(`Mentioned ${ mention.mentioned.name } (id ${ mention.mentioned.id }), ${ Object.entries(mention.mentioned) }`));
             let message = context.activity.text;
             const messageArgs = context.activity.text.split(' ');
             // strip the mention if it's there
