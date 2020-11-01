@@ -2,6 +2,9 @@
   "compilerOptions": {
     "declaration": true,
     "target": "es2016",
+    "lib": [ 
+      "es2019"
+    ],
     "module": "commonjs",
     "outDir": "./lib",
     "rootDir": "./src",
