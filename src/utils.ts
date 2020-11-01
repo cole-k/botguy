@@ -37,8 +37,8 @@ export function nubBy(array, selector: (entry) => any) {
     const map = new Map();
     array.forEach( (entry) => {
         const selected = selector(entry);
-        if (!(selected in map)) {
-            map[selected] = entry;
+        if (!map.has(selected)) {
+            map.set(selected, entry);
         }
     });
     // probably better to return an iterable, but I want to chck if the length

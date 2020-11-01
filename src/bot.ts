@@ -1,7 +1,7 @@
 import { ActivityHandler, MessageFactory } from 'botbuilder';
 import { CommandParser } from './CommandParser';
 import { NiceOneHandler } from './niceone';
-import { simpleMessage } from './utils';
+import { simpleMessage, nubBy } from './utils';
 
 export class BotGuyBot extends ActivityHandler {
     constructor() {
