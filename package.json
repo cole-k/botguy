@@ -28,7 +28,11 @@
         "restify": "~8.5.1",
         "sequelize": "^6.3.5",
         "sequelize-cli": "^6.2.0",
-        "tinyreq": "^3.2.5"
+        "tinyreq": "^3.2.5",
+        "@types/restify": "8.4.2",
+        "nodemon": "~2.0.4",
+        "tslint": "~6.1.2",
+        "typescript": "~3.9.2"
     },
     "devDependencies": {
         "@types/restify": "8.4.2",
