@@ -5,6 +5,9 @@
     "author": "Generated using Microsoft Bot Builder Yeoman generator v4.10.3",
     "license": "MIT",
     "main": "./lib/index.js",
+    "engines": {
+    "node": "15.x"
+    },
     "scripts": {
         "build": "tsc --build",
         "lint": "tslint -c tslint.json 'src/**/*.ts'",
