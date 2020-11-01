@@ -1447,7 +1447,7 @@
         "affectsGlobalScope": false
       },
       "../src/bot.ts": {
-        "version": "265754eb2e7592387667dde9dc637e0bfe2f8d7a2f816115596471d8b6288247",
+        "version": "312d0d93f74aa9bf15cc0a49a68913e7b1107a333d687eea768389b1aefec668",
         "signature": "96b61b36617e5fa5779d85d7cdc33e4666db87f6071db084a545eba477839733",
         "affectsGlobalScope": false
       },
